@@ -8,7 +8,7 @@ import numpy as np
 
 class TimeOptimalSolver(BaseSolver):
     def __init__(self, method_config, constrains):
-        super(TimeOptimalSolver, self).__init__(constrains)
+        super(TimeOptimalSolver, self).__init__(method_config, constrains)
         self.target_window, self.best_time = None, None
         self.if_window_unchangeable = False
 

@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import argparse
 
 from gym.envs.classic_control import rendering
 import gym
@@ -17,15 +18,18 @@ from simulator.config import env_config, model_config
 from simulator.simulator import simulator
 from simulator.solver import solver_config
 
- 
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--type', default='rule-based')
+args = parser.parse_args()
 if __name__ == '__main__':
     env = load_environment(env_config)
     # unknown reason, cannot load config from env_config.
     env.configure(env_config)
     env.reset()
     # method = 'data-driven'
-    method = model_config['type']
-    solver = solver_config[method](model_config, None)
+    model_config.update({'type': args.type})
+    solver = solver_config[args.type](model_config, None)
 
     simulator = simulator(env, solver, 200, True)
     simulator.simulate()

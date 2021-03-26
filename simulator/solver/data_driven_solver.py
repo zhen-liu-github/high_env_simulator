@@ -7,8 +7,7 @@ import numpy as np
 
 class DataDrivenSolver(BaseSolver):
     def __init__(self, model_config, constrains):
-        super(DataDrivenSolver, self).__init__(constrains)
-        self.model_config = model_config
+        super(DataDrivenSolver, self).__init__(model_config, constrains)
 
 
     def preprocess(self, observations):
