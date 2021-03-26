@@ -13,10 +13,10 @@ from highway_env.vehicle.behavior import IDMVehicle
 from highway_env.vehicle.controller import ControlledVehicle
 from highway_env.vehicle.kinematics import Vehicle
 
-from config import env_config
-from solver.time_optimal_solver import TimeOptimalSolver
-from solver.graphic import SolverGraphic
-from utils.utils import RemoveCurrentLaneOtherVehilces
+from simulator.config import env_config
+from simulator.solver.time_optimal_solver import TimeOptimalSolver
+from simulator.solver.graphic import SolverGraphic
+from simulator.utils.utils import RemoveCurrentLaneOtherVehilces
 
 
 class simulator(object):

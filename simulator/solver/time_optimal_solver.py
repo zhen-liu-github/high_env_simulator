@@ -1,21 +1,17 @@
-from solver.base_solver import BaseSolver
+from simulator.solver.base_solver import BaseSolver
 from highway_env.envs.common.action import ContinuousAction
 from .utils import LaneChangeWindow, GetWindowByIndex, PID, CheckReady
-from config import env_config
+from ..config import env_config
 import math
 import numpy as np
 
 
 class TimeOptimalSolver(BaseSolver):
-    def __init__(self, constrains):
+    def __init__(self, method_config, constrains):
         super(TimeOptimalSolver, self).__init__(constrains)
-        self.ego_a_max = env_config['ego_max_a']
-        self.ego_a_min = env_config['ego_min_a']
-        self.S_PID = PID(P=1, I=0.0, D=0.0)
-        self.V_PID = PID(P=10, D=0.0)
-        self.S_PID.inter_PID = self.V_PID
         self.target_window, self.best_time = None, None
         self.if_window_unchangeable = False
+
     def preprocess(self, observation):
         # Get front near obs and target route obs.
         # If have left lane, left lane change, otherwise right lane change.
@@ -58,21 +54,9 @@ class TimeOptimalSolver(BaseSolver):
         if self.target_window.is_ready:
             self.action['is_ready'] = True
             return self.action
-        
-        self.S_PID.update_ego(self.ego_car[3], self.target_window.window_s,
-                            self.target_window.window_v)
-        # self.S_PID.update_ego(self.ego_car[3], 300+1.5*self.time_stamp,
-        #                       15)
-        self.S_PID.update(self.ego_car[1])
-        output = self.V_PID.output
-        a = max(output, self.ego_a_min)
-        a = min(a, self.ego_a_max)
-        if env_config['action']['type'] == 'ContinuousAction':
-            self.action['a'] = a
-            self.action['v'] = self.ego_car[3]
-            self.action['s'] = self.ego_car[1]
-        elif env_config['action']['type'] == 'DiscreteMetaAction':
-            self.action['output']=3 if a>0 else 4
+        self.GetControlOutput(self.ego_car[1], self.ego_car[3],
+                              self.action['target_window'].window_s,
+                              self.action['target_window'].window_v)
         return self.action
 
     def _solve(self, window_list):
@@ -107,9 +91,11 @@ class TimeOptimalSolver(BaseSolver):
             for window in window_list:
                 if CheckReady(window, self.ego_car, env_config['ego_min_a'],
                               env_config['vehicle_min_a']):
-                    # If window is ready, return.
+                    # If window is ready, break.
                     window.is_ready = True
-                    return window, 0
+                    best_window = window
+                    best_time = 0
+                    break
                 time = self._getOptimalTime(window.window_v - self.ego_car[3],
                                             window.window_s - self.ego_car[1])
                 if best_time > time:
