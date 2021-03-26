@@ -55,14 +55,17 @@ class SolverGraphic(object):
                                  (window_rear, 0, cell_size[0], cell_size[1]),
                                  0)
                 pygame.draw.rect(surface, cls.RED,
-                         ((window.window_s - sim_surface.origin[0]) *
-                          sim_surface.scaling - 2, 0, 4, cell_size[1]), 0)
+                                 ((window.window_s - sim_surface.origin[0]) *
+                                  sim_surface.scaling - 2, 0, 4, cell_size[1]),
+                                 0)
                 # Display text
                 if display_text:
                     font = pygame.font.Font(None, 15)
-                    text = "window s={:.2f}, v={:.2f}".format(window.window_s, solver.ego_car[3])
+                    text = "window s={:.2f}, v={:.2f}".format(
+                        window.window_s, solver.ego_car[3])
                     text = font.render(text, 2, (10, 10, 10), (255, 255, 255))
-                    surface.blit(text, (rear + cell_size[0] / 2, cell_size[1] / 2))
+                    surface.blit(text,
+                                 (rear + cell_size[0] / 2, cell_size[1] / 2))
 
         # Display node value
         cmap = cm.jet_r
@@ -74,10 +77,10 @@ class SolverGraphic(object):
                          ((target_window.window_s - sim_surface.origin[0]) *
                           sim_surface.scaling - 2, 0, 4, cell_size[1]), 0)
         if display_text:
-            font = pygame.font.Font(None, 15)
-            text = "chasing window time={:.2f}, a={:.7f} \n window_v:{:.2f}, ego_v:{:.2f} ".format(
-                best_time, solver.action['a'], target_window.window_v,
-                solver.ego_car[3])
+            font = pygame.font.Font(None, 30)
+            text = "chasing window time={:.2f}, r_v={:.2f} r_s:{:.2f}".format(
+                best_time, target_window.window_v - solver.ego_car[3],
+                target_window.window_s - solver.ego_car[1])
             text = font.render(text, 1, (10, 10, 10), (255, 255, 255))
             surface.blit(text, (rear + cell_size[0] / 2, cell_size[1] / 2))
 
