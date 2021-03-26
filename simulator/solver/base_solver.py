@@ -10,7 +10,7 @@ class BaseSolver(ABC):
         self.ego_a_min = env_config['ego_min_a']
         # Control config.
         self.S_PID = PID(P=1, I=0.0, D=0.001)
-        self.V_PID = PID(P=5, D=0.0)
+        self.V_PID = PID(P=8, D=0.0)
         self.S_PID.inter_PID = self.V_PID
         # result initialization.
         self.action = {}
