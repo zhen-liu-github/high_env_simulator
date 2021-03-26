@@ -15,7 +15,7 @@ class TimeOptimalSolver(BaseSolver):
         self.V_PID = PID(P=10, D=0.0)
         self.S_PID.inter_PID = self.V_PID
         self.target_window, self.best_time = None, None
-        self.if_window_unchangeable = True
+        self.if_window_unchangeable = False
     def preprocess(self, observation):
         # Get front near obs and target route obs.
         # If have left lane, left lane change, otherwise right lane change.
@@ -86,16 +86,16 @@ class TimeOptimalSolver(BaseSolver):
             interval = int(env_config['simulation_frequency'] /
                            env_config['policy_frequency'])
             for window in window_list:
-                if bool(window.front_vehicle)!= bool(self.target_window.front_vehicle) or \
-                    bool(window.rear_vehicle)!=bool(self.target_window.rear_vehicle):
+                if (window.front_vehicle is None)!= (self.target_window.front_vehicle is None) or \
+                    (window.rear_vehicle is None)!=(self.target_window.rear_vehicle is None):
                     continue
 
-                if ((not window.front_vehicle
+                if ((window.front_vehicle is not None
                      or interval < len(window.front_vehicle.history)
                      and self.IsTheSameWindowWithLast(
                          window.front_vehicle.history[interval],
                          self.target_window.front_vehicle) and
-                     (not window.rear_vehicle
+                     (window.rear_vehicle is not None
                       or interval < len(window.rear_vehicle.history)
                       and self.IsTheSameWindowWithLast(
                           window.rear_vehicle.history[interval],

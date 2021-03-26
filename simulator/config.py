@@ -1,5 +1,9 @@
 
 vehicle_config = {}
+method_config = {
+    # "type": "rule_based",
+
+}
 env_config = {
     "id": "highway-only-target-lane-has-obs-v0",
     # "id":  "highway-v0",

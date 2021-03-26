@@ -43,11 +43,11 @@ class LaneChangeWindow(object):
         # Currently, when the window has no both front and rear obs,
         # the s and velocity of window will be set to same with ego_car.
         if self.front_is_valid:
-            self.front_s = self.front_vehicle.position[0] - self.car_length / 2
-            self.front_v = self.front_vehicle.velocity[0]
+            self.front_s = self.front_vehicle[1] - self.car_length / 2
+            self.front_v = self.front_vehicle[3]
         if self.rear_is_valid:
-            self.rear_s = self.rear_vehicle.position[0] + self.car_length / 2
-            self.rear_v = self.rear_vehicle.velocity[0] if self.rear_is_valid else None
+            self.rear_s = self.rear_vehicle[1] + self.car_length / 2
+            self.rear_v = self.rear_vehicle[3] if self.rear_is_valid else None
         if not self.front_is_valid and not self.rear_is_valid:
             self.is_ready = True
         self.window_v = (self.front_v if self.front_is_valid else 0 +
@@ -104,17 +104,12 @@ def GetWindowByIndex(front_obs, rear_obs, index, env):
     if index < -rear_size or index > front_size:
         return None
     if index >= 0:
-        window_front = None if index == front_size else LaneChangeWindow.GetVehicleFromIndex(
-            int(front_obs[index][-1]), env)
-        window_rear = None if rear_size == 0 else LaneChangeWindow.GetVehicleFromIndex(
-            int(rear_obs[0][-1]),
-            env) if index == 0 else LaneChangeWindow.GetVehicleFromIndex(
-                int(front_obs[index - 1][-1]), env)
+        window_front = None if index == front_size else front_obs[index]
+        window_rear = None if rear_size == 0 else rear_obs[0]\
+            if index == 0 else front_obs[index - 1]
     else:
-        window_rear = None if index == -rear_size else LaneChangeWindow.GetVehicleFromIndex(
-            int(rear_obs[-index][-1]), env)
-        window_front = LaneChangeWindow.GetVehicleFromIndex(
-            int(rear_obs[-index - 1][-1]), env)
+        window_rear = None if index == -rear_size else rear_obs[-index]
+        window_front = rear_obs[-index - 1]
     return LaneChangeWindow(window_front, window_rear)
 
 

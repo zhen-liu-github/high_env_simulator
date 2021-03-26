@@ -24,9 +24,10 @@ class simulator(object):
         self.env = env
         self.solver = solver
         self.num_episodes = num_episodes
+        self.display_env = display_env
+        # Inner attributes
         self.episode = 0
         self.observation = None
-        self.display_env = display_env
         self.monitor = MonitorV2(
             # env, None, video_callable=(None if self.display_env else False))
             env,
