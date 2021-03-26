@@ -39,7 +39,7 @@ class SolverGraphic(object):
         cell_size = (front - rear, surface.get_height())
         pygame.draw.rect(surface, cls.BLACK,
                          (0, 0, surface.get_width(), surface.get_height()), 0)
-        if model_config['type'] == 'data-driven' and model_config[
+        if solver.model_config['type'] == 'data-driven' and solver.model_config[
                 'data-driven']['multi-window-display']:
             for window in solver.window_list:
                 window_front = (
