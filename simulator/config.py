@@ -1,7 +1,22 @@
 
 vehicle_config = {}
-method_config = {
-    # "type": "rule_based",
+model_config = {
+    "type": "rule-based",
+    "data-driven": {
+        "feature_index": {
+        "x": 1,
+        "y": 2,
+        "vx":3,
+        "vy":4,
+        "cos_h":5,
+        "sin_h":6,
+        },
+        "multi-window-display": True,
+    },
+    "rule-based": {
+
+    }
+    
 
 }
 env_config = {
@@ -41,7 +56,7 @@ env_config = {
     "ego_max_a": 5,
     "vehicle_min_a": -5,
     "vehicle_max_a": 5,
-    "T_react": 0.1,
+    "T_react": 0.3,
 
 }
 exp_config = {

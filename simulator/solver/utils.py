@@ -1,4 +1,4 @@
-from config import env_config
+from ..config import env_config
 
 
 def kinematic(v, a):

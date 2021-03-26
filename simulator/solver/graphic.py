@@ -6,12 +6,15 @@ import matplotlib.cm as cm
 
 from rl_agents.utils import remap, constrain
 
+from simulator.config import model_config
+
 
 class SolverGraphic(object):
     """
         Graphical visualization of the Solver.
     """
     RED = (255, 0, 0)
+    BLUE = (0, 0, 255)
     BLACK = (0, 0, 0)
     MIN_ATTENTION = 0.01
 
@@ -36,6 +39,30 @@ class SolverGraphic(object):
         cell_size = (front - rear, surface.get_height())
         pygame.draw.rect(surface, cls.BLACK,
                          (0, 0, surface.get_width(), surface.get_height()), 0)
+        if model_config['type'] == 'data-driven' and model_config[
+                'data-driven']['multi-window-display']:
+            for window in solver.window_list:
+                window_front = (
+                    window.front_s - sim_surface.origin[0]
+                ) * sim_surface.scaling if window.front_is_valid else surface.get_width(
+                )
+                window_rear = (
+                    window.rear_s - sim_surface.origin[0]
+                ) * sim_surface.scaling if window.rear_is_valid else 0
+                cell_size = (window_front - window_rear, surface.get_height())
+                # Draw window
+                pygame.draw.rect(surface, cls.BLUE,
+                                 (window_rear, 0, cell_size[0], cell_size[1]),
+                                 0)
+                pygame.draw.rect(surface, cls.RED,
+                         ((window.window_s - sim_surface.origin[0]) *
+                          sim_surface.scaling - 2, 0, 4, cell_size[1]), 0)
+                # Display text
+                if display_text:
+                    font = pygame.font.Font(None, 15)
+                    text = "window s={:.2f}, v={:.2f}".format(window.window_s, solver.ego_car[3])
+                    text = font.render(text, 2, (10, 10, 10), (255, 255, 255))
+                    surface.blit(text, (rear + cell_size[0] / 2, cell_size[1] / 2))
 
         # Display node value
         cmap = cm.jet_r
