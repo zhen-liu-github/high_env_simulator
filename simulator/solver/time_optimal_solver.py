@@ -53,7 +53,7 @@ class TimeOptimalSolver(BaseSolver):
         self.action['is_ready'] = False
         if self.target_window.is_ready:
             self.action['is_ready'] = True
-            return self.action
+            # return self.action
         self.GetControlOutput(self.ego_car[1], self.ego_car[3],
                               self.action['target_window'].window_s,
                               self.action['target_window'].window_v)
@@ -65,7 +65,7 @@ class TimeOptimalSolver(BaseSolver):
         min_error = float('inf')
         have_same_window = False
         if self.if_window_unchangeable and self.target_window is not None:
-            # This logic is for PID controler
+            # This logic is for PID controler gain choice and can chase a unchangeable window.
             min_error = float('inf')
             interval = int(env_config['simulation_frequency'] /
                            env_config['policy_frequency'])

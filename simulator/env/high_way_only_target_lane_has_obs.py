@@ -45,7 +45,7 @@ class OnlyTargetLaneHasObsHighWayEnv(HighwayEnv):
         for others in other_per_controlled:
             controlled_vehicle = self.action_type.vehicle_class.create_random(
                 self.road,
-                speed=25,
+                speed=np.random.uniform(0, 30),
                 lane_id=self.config["initial_lane_id"],
                 spacing=self.config["ego_spacing"])
             self.controlled_vehicles.append(controlled_vehicle)
