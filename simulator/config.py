@@ -1,7 +1,11 @@
-
+import sys
+import os
+path = sys.argv[0]
 vehicle_config = {}
 model_config = {
+    "data_save_path": 'simulator/data/',
     "type": "rule-based",
+    "model_path": os.path.join('/'.join(path.split('/')[:-1]), 'models', 'saved_model', 'saved_model'),
     "data-driven": {
         "feature_index": {
         "x": 1,
@@ -43,15 +47,15 @@ env_config = {
     },
     "simulation_frequency": 10,
     "policy_frequency": 10,
-    "duration": 200,
+    "duration": 100,
     "initial_lane_id": 0,
     "screen_width": 2000,
-    "screen_height": 600,
+    "screen_height": 800,
     "vehicles_count": 10,
     "other_vehicles_type": "highway_env.vehicle.behavior.IDMVehicle",
     "centering_position": [0.3, 0.5],
     "other_vehicle_lane_id": 1,
-    "average_vehilve_distance": 20,
+    "average_vehilve_distance": 15,
     "ego_min_a": -5,
     "ego_max_a": 5,
     "vehicle_min_a": -5,

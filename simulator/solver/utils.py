@@ -61,10 +61,10 @@ class LaneChangeWindow(object):
         t_react = env_config['T_react']
         if self.front_is_valid:
             v_front = self.front_v
-            front_safe_dis = v_front**2/abs(a_min_vehicle)*0.5
+            front_safe_dis = v_front**2/abs(a_min_vehicle)*0.5 +v_front*t_react
         if self.rear_is_valid:
             v_rear = self.rear_v
-            rear_safe_dis = v_rear**2/abs(a_min_vehicle)*0.5
+            rear_safe_dis = v_rear**2/abs(a_min_vehicle)*0.5+v_rear*t_react
         if not self.front_is_valid:
             self.window_s = ego_car[
                 1] if not self.rear_is_valid else self.rear_s + rear_safe_dis
@@ -94,8 +94,6 @@ class LaneChangeWindow(object):
             res += 'No rear window'
         return res
 
-    def update(self, ego_car):
-        self.getWindowInfo(ego_car)
 
 
 def GetWindowByIndex(front_obs, rear_obs, index, env):

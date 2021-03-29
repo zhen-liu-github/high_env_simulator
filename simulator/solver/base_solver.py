@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from ..config import env_config
+from simulator.config import env_config
 from .utils import PID
 class BaseSolver(ABC):
     def __init__(self, model_config, constrains):
@@ -9,8 +9,8 @@ class BaseSolver(ABC):
         self.ego_a_max = env_config['ego_max_a']
         self.ego_a_min = env_config['ego_min_a']
         # Control config.
-        self.S_PID = PID(P=1, I=0.0, D=0.001)
-        self.V_PID = PID(P=8, I= 0.0, D=0.0)
+        self.S_PID = PID(P=1, I=0.0, D=0.00)
+        self.V_PID = PID(P=20, I= 0.0, D=0.0)
         self.S_PID.inter_PID = self.V_PID
         # result initialization.
         self.action = {}

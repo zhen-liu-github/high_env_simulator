@@ -20,7 +20,7 @@ from simulator.solver import solver_config
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--type', default='rule-based')
+parser.add_argument('--type', default='data-driven')
 args = parser.parse_args()
 if __name__ == '__main__':
     env = load_environment(env_config)
@@ -31,5 +31,5 @@ if __name__ == '__main__':
     model_config.update({'type': args.type})
     solver = solver_config[args.type](model_config, None)
 
-    simulator = simulator(env, solver, 200, True)
+    simulator = simulator(env, solver,  200, True, save_data=True)
     simulator.simulate()

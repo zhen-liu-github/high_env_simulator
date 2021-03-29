@@ -12,7 +12,6 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "args": [
-                "--type", "rule-based",
             ],
         }
     ]
