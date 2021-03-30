@@ -29,6 +29,8 @@ class SolverGraphic(object):
         :param sim_surface: the pygame surface on which the env is rendered
         :param display_text: whether to display the window values as text
         """
+        if not solver.window_is_display:
+            return 
         target_window = solver.target_window
         front = (
             target_window.front_s - sim_surface.origin[0]
@@ -72,7 +74,7 @@ class SolverGraphic(object):
                     surface.get_height() / 2, surface, sim_surface)
 
         else:
-
+            
             best_time = solver.best_time
             # Display node value
             cmap = cm.jet_r

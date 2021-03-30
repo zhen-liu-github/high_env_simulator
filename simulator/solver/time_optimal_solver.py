@@ -101,8 +101,6 @@ class TimeOptimalSolver(BaseSolver):
                 if best_time > time:
                     best_window = window
                     best_time = time
-        print(best_window, best_time, self.ego_car[3])
-        print(best_window.window_s)
         best_time = -1 if best_time == float('inf') else best_time
         return best_window, best_time
 

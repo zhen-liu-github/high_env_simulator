@@ -32,7 +32,11 @@ class OnlyTargetLaneHasObsHighWayEnv(HighwayEnv):
             "average_vehilve_distance": 20,
         })
         return config
-
+    def _is_terminal(self) -> bool:
+        """The episode is over if the ego vehicle crashed or the time is out."""
+        return self.vehicle.position[1]>=3.8 or self.vehicle.crashed or \
+            self.steps >= self.config["duration"] or \
+            (self.config["offroad_terminal"] and not self.vehicle.on_road)
     def _create_vehicles(self) -> None:
         """Create some new random vehicles of a given type, and add them on the road."""
         other_vehicles_type = utils.class_from_path(

@@ -5,6 +5,8 @@ class BaseSolver(ABC):
     def __init__(self, model_config, constrains):
         self.model_config = model_config
         self.constrains = constrains
+        # Control window display consistancy.
+        self.window_is_display = False
         # Ego info.
         self.ego_a_max = env_config['ego_max_a']
         self.ego_a_min = env_config['ego_min_a']
@@ -49,6 +51,7 @@ class BaseSolver(ABC):
         observations = observations[1:]
         pre_observations = self.preprocess(observations)
         action = self._solve(pre_observations)
+        self.window_is_display = True
         return self.postprocess(action)
 
     @abstractmethod

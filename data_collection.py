@@ -8,7 +8,7 @@ from rl_agents.agents.common.factory import load_agent, load_environment
 from rl_agents.trainer.monitor import MonitorV2
 from gym.envs.classic_control import rendering
 from highway_env.vehicle.behavior import IDMVehicle
-from highway_env.vehicle.controller import ControlledVehicle
+from highway_env.vehicle.controller import ControlledVehicle   
 from highway_env.vehicle.kinematics import Vehicle
 from highway_env.vehicle.behavior import IDMVehicle
 
