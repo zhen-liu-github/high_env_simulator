@@ -87,6 +87,7 @@ We construct rule-based methods according to
 ————————————————————————————————
 
 obs_num | sample num | lane change time |lane change success rate|
+————————|————————|————————|————————|
  1      |   4        |   3.25               |  100%|
  2 || 32    |  | 87.5%|
   3 |  108 |  | 90.74%|
