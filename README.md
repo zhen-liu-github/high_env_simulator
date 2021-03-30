@@ -30,7 +30,7 @@ The more obstacles, the more difficult to lane change. To ensure a relistic and 
 
 ### Average distance between obstacles
 We set distance between adjacent obs according to their speeds and obs num.
-![](http://latex.codecogs.com/svg.latex?D_{obs}=max(D_{safe}, 200/obs_num+U(-4,4)))
+![](http://latex.codecogs.com/svg.latex?D_{obs}=max(D_{safe}, &space;200/obs_num+U(-4,4))&space;)
 
 # run script with rule-based window selection.
 python model_test.py --type rule-based
