@@ -1,6 +1,9 @@
-# high_env_simulator
-This repository is based on the [Highway-env](https://github.com/eleurent/highway-env).
+## high_env_simulator
+This repository is based on the [Highway-env](https://github.com/eleurent/highway-env) and aims to compare different lane change method's performances.
 
+#Env config.
+The env distribution of the simulator will affect the mothod performance. And a perfect simulator has a realistic env and can focus on the difficult part. 
+Currently, speed distribution of ego car and obstacles, obstacles num, average distance between obstacles,  
 The speed of ego car and lane change window have a huge impact on lane change motion.
 
 
