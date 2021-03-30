@@ -25,7 +25,7 @@ scale =
 
 ### Obs num
 The more obstacles, the more difficult to lane change. To ensure a relistic and difficult lane change scenario, we set 
-![](http://latex.codecogs.com/svg.latex?N_{obs}=Int(N(8, 2)))
+![](http://latex.codecogs.com/svg.latex?N_{obs}=Int\(N\(8, 2\)\))
 ![obs num distribution](https://user-images.githubusercontent.com/80379828/112948233-67dc8c00-916a-11eb-9893-f0c6059ee206.png "obs num distribution")
 
 ### Average distance between obstacles
