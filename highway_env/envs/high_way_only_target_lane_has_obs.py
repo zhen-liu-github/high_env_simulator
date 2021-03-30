@@ -47,18 +47,26 @@ class OnlyTargetLaneHasObsHighWayEnv(HighwayEnv):
 
         self.controlled_vehicles = []
         distance = np.random.uniform(15, 25)
+        # Sample ego velocity from a t distribution with df=15.
+        ego_speed = np.random.chisquare(15, 1)[0]
         for others in other_per_controlled:
             controlled_vehicle = self.action_type.vehicle_class.create_random(
                 self.road,
-                speed=25 + np.random.rand(1)[0]*10,
+                speed = ego_speed,
+                # speed=25 + np.random.rand(1)[0]*10,
                 # speed=25,
                 lane_id=self.config["initial_lane_id"],
                 spacing=self.config["ego_spacing"])
             self.controlled_vehicles.append(controlled_vehicle)
             self.road.vehicles.append(controlled_vehicle)
             rear_pos = controlled_vehicle.destination[0] - \
-                distance*others/2
+                distance * others / 2
+            # Sample obs_speed from t distribution.
+            obs_speed = np.random.chisquare(15, 1)[0]
+            obs_scale = obs_speed**0.5
             for i in range(others):
+                # Sample velocity for obs i.
+                obs_speed_i = np.random.normal(loc=obs_speed, scale=obs_scale, size=1)[0]
                 self.road.vehicles.append(
                     other_vehicles_type.make_on_lane(
                         self.road,
@@ -68,7 +76,7 @@ class OnlyTargetLaneHasObsHighWayEnv(HighwayEnv):
                         np.random.uniform(
                             (-distance / 2 + 3,
                              distance / 2 - 3)),
-                        speed=25 + np.random.rand(1)[0]*10))
+                        speed=obs_speed_i))
 
 
 register(

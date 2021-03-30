@@ -129,16 +129,16 @@ def GetSafetyDis(v_front, v_rear, a_front, a_rear, t_react, is_front=False):
         (v_front**2 / a_front * 0.5 + t_react * v_front))
 
 
-def CheckReady(window, ego_car, ego_min_a, vehicle_min_a):
+def CheckReady(window, ego_car, ego_min_a, vehicle_min_a, react_T=0.5):
     ego_length = 5
     ego_s = ego_car[1]
     ego_v = ego_car[3]
     if window.front_is_valid:
         D_front = GetSafetyDis(window.front_v, ego_v, vehicle_min_a, ego_min_a,
-                               0, False)
+                               react_T, False) + 1
     if window.rear_is_valid:
         D_rear = GetSafetyDis(ego_v, window.rear_v, ego_min_a, vehicle_min_a,
-                              0, True)
+                              react_T, True) + 1
     front_ready = not window.front_is_valid or window.front_s - ego_s - ego_length / 2 > D_front
     rear_ready = not window.rear_is_valid or ego_s - ego_length / 2 - window.rear_s > D_rear
     return front_ready and rear_ready
@@ -146,7 +146,11 @@ def CheckReady(window, ego_car, ego_min_a, vehicle_min_a):
 
 class PID:
     # Copied from https://www.jb51.net/article/167234.htm
-    def __init__(self, P_value=0.1, I_value=0.0, D_value=0.0, time_interval=0.1):
+    def __init__(self,
+                 P_value=0.1,
+                 I_value=0.0,
+                 D_value=0.0,
+                 time_interval=0.1):
         self.Kp = P_value
         self.Ki = I_value
         self.Kd = D_value

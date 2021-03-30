@@ -89,10 +89,11 @@ class simulator(object):
                         action = self.results['output']
                 elif env_config['action']['type'] == 'ContinuousAction':
                     action = [self.results['a'], self.results['theta']]
-                    self.v.append(self.results['v'])
-                    self.s.append(self.results['s'])
                 elif env_config['action']['type'] == 'DiscreteMetaAction':
                     action = self.results['output']
+                
+                self.v.append(self.monitor.env.controlled_vehicles[0].speed)
+                self.s.append(self.monitor.env.controlled_vehicles[0].target_speed)
                 self.observation, reward, terminal, info = self.monitor.step(
                     action)
                 if self.if_render:
@@ -100,12 +101,14 @@ class simulator(object):
 
                 self.results = self.solver.solve(self.observation, self.env)
                 observations.append(self.observation)
-            # plt.figure(figsize=(200, 400))
-            # fig, axes = plt.subplots(1, 2)
-            # axes[0].scatter(np.arange(len(self.v)), self.v)
-            # axes[1].scatter(np.arange(len(self.s)), self.s)
-            # plt.savefig('./1.png')
-            # plt.close()
+            plt.figure(figsize=(200, 400))
+            fig, ax=plt.subplots(1, 1)
+            ax.scatter(np.arange(len(self.v)), self.v, label='real_v')
+            ax.scatter(np.arange(len(self.s)), self.s, label='target_v')
+            plt.title('current')
+            plt.legend()
+            plt.savefig('./2.png')
+            plt.close()
 
             # Statistic lane change info.
             # Currently, we only statistic no crashed case.
@@ -130,6 +133,9 @@ class simulator(object):
         return total_observations
 
     def reset(self):
+        obs_num = int(np.random.normal(loc=8, scale=2, size=1)[0])
+        obs_num = max(1, obs_num)
+        self.monitor.configure({"vehicles_count": obs_num})
         self.observation = self.monitor.reset()
         # Initialize window state and lane change time.
         self.solver.window_is_display = False
@@ -202,11 +208,9 @@ class simulator(object):
 
 if __name__ == '__main__':
     env = load_environment(env_config)
-    # unknown reason, cannot load config from env_config.
+    # Unknown reason, cannot load config from env_config.
     env.configure(env_config)
     env.reset()
-
     solver = TimeOptimalSolver(None)
-
     simulator = simulator(env, solver, 200, True)
     simulator.simulate()

@@ -51,9 +51,9 @@ class BaseSolver(ABC):
         self.action['is_ready'] = False
         #     return action
         self.ego_car = observations[0]
-        observations = observations[1:]
-        pre_observations = self.preprocess(observations)
-        action = self._solve(pre_observations)
+        obs_observations = observations[1:]
+        obs_observations = self.preprocess(obs_observations)
+        action = self._solve(obs_observations)
         self.window_is_display = True
         return self.postprocess(action)
 

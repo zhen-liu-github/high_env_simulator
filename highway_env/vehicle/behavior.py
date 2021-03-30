@@ -255,6 +255,10 @@ class IDMVehicle(ControlledVehicle):
         # Do I have a planned route for a specific lane which is safe for me to access?
         old_preceding, old_following = self.road.neighbour_vehicles(self)
         self_pred_a = self.acceleration(ego_vehicle=self, front_vehicle=new_preceding)
+
+        # If following vehicle is ego_car, return false.
+        if type(old_following).__name__ == 'MDPVehicle':
+            return False
         if self.route and self.route[0][2]:
             # Wrong direction
             if np.sign(lane_index[2] - self.target_lane_index[2]) != np.sign(self.route[0][2] - self.target_lane_index[2]):
@@ -272,7 +276,7 @@ class IDMVehicle(ControlledVehicle):
                                                              + old_following_pred_a - old_following_a)
             if jerk < self.LANE_CHANGE_MIN_ACC_GAIN:
                 return False
-
+        
         # All clear, let's go!
         return True
 
