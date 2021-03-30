@@ -97,29 +97,52 @@ We construct rule-based methods according to
 |8| 15| 6.8    | 93.33%|
 |9| 4|   2.90   | 100% |
 |overall| 874 | 5.46 | 92.67%|
+126/1000 crashed.
 ![1](https://user-images.githubusercontent.com/80379828/113030159-df88d600-91bf-11eb-8bcd-3fecd256c508.gif)
-
+The yellow window is the target window with the minimum chasing window time.
 issue:
 * Weak control capability
 * Trade-off between saftey-check and lat lane change motion.
 * No collision check
 
 ## Data-driven
+We construct a simple model to infer window confidence. The model structure is defined as :
+### Model structure
+![model structure](https://user-images.githubusercontent.com/80379828/113032811-de0cdd00-91c2-11eb-94df-b147f3bc4587.png "model structure")
+![data_driven](https://user-images.githubusercontent.com/80379828/112783107-199f8e00-9081-11eb-91e4-5f5a6898edb3.gif)
+### Feature
+We only concat features of ego car and obs to get a 12-dimension window-feature.
+Currently, the model's performance is not stable and have a high crash rate.
+![data_driven](https://user-images.githubusercontent.com/80379828/112783107-199f8e00-9081-11eb-91e4-5f5a6898edb3.gif)
 
-
+The yellow window is the target window with the highest window confidence and blue windows are all feasible lane change window.
+(The train dataset comes from rule-based window selection simulations.)
+|obs_num | sample num | lane change time |lane change success rate|
+|----|----|----|----|
+| 1      |   6        |   9.4               |  0.6667|
+ |2 || 27    | 6.58 |0.4815|
+|  3 |  97 | 6.24 | 0.7112|
+|4  |  257 |  5.3  |0.7393 |
+|5 |  292 |   6.38 |   0.7192|
+|6| 139| 7.18   | 0.61115|
+|7| 51| 7.69   | 0.4792|
+|8| 7|   6.67 | 0.4286|
+|9| 2|   6   | 0.5 |
+|10| 1|   7   | 1 |
+|overall| 874 | 5.46 | 92.67%|
+* Need feature engeering
+* Solve overfitting.
+* Wrong case analysis
 # run script with rule-based window selection.
 python model_test.py --type rule-based
-![rule-based](https://user-images.githubusercontent.com/80379828/112783305-a0546b00-9081-11eb-8bf8-17dbbe4ce476.gif)
-![rule_based_1](https://user-images.githubusercontent.com/80379828/112783501-09d47980-9082-11eb-9a26-f211209a4b09.gif)
 
-The yellow window is the target window with the minimum chasing window time.
+
 
 
 
 # run script with data-driven window selection.
 
 python model_test.py --type data-driven
-![data_driven](https://user-images.githubusercontent.com/80379828/112783107-199f8e00-9081-11eb-91e4-5f5a6898edb3.gif)
 
-The yellow window is the target window with the highest window confidence and blue windows are all feasible lane change window.
-(The train dataset comes from rule-based window selection simulations.)
+
+
