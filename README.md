@@ -49,8 +49,8 @@ The action space consists of Faster, Slower, IDLE, Left lane change, Right lane 
 ![](https://latex.codecogs.com/svg.image?V_{min}=20)
 ![](https://latex.codecogs.com/svg.image?V_{count}=3)
 For a accuracy speed control, we set  
-![](https://latex.codecogs.com/svg.image?V_{max}=30" title="V_{min}=0)
-![](https://latex.codecogs.com/svg.image?V_{max}=30" title="V_{count}=19)
+![](https://latex.codecogs.com/svg.image?V_{min}=0)
+![](https://latex.codecogs.com/svg.image?V_{count}=19)
 And the target and real speed fig of above config are shown as
 ![default target_real_v](https://user-images.githubusercontent.com/80379828/112982037-8fdde680-918e-11eb-9a02-ce84d1ef6378.png "default target_real_v")
 ![target_real_v](https://user-images.githubusercontent.com/80379828/112983079-cd8f3f00-918f-11eb-9525-5fe01a864693.png "target_real_v")
