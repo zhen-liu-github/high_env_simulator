@@ -55,16 +55,22 @@ For a accuracy speed control, we set
 ![](https://latex.codecogs.com/svg.image?V_{min}=0) 
 
 ![](https://latex.codecogs.com/svg.image?V_{count}=19)
-So, the default config has 2 target spped in average 10m/s, and current config has 6 target spped in average 10m/s.
+So, the default config has 2 target speed in average 10m/s, and current config has 6 target speed in average 10m/s.
 
 And the target and real speed fig of above configs are shown as
 ![default target_real_v](https://user-images.githubusercontent.com/80379828/112982037-8fdde680-918e-11eb-9a02-ce84d1ef6378.png "default target_real_v")
 ![target_real_v](https://user-images.githubusercontent.com/80379828/112983079-cd8f3f00-918f-11eb-9525-5fe01a864693.png "target_real_v")
 
-So, current config will may have a high variance and a low error due to the easy changeable target velocity. And the other config are setting as default as 
+So, current config will may have a high variance and a low error due to the easy changeable target velocity. If we have a big difference between target and current speed, it will increase the comfort cost.
+
+
+And the other config are setting as default as 
 ![](https://latex.codecogs.com/svg.image?a_{max}=5)
+
 ![](https://latex.codecogs.com/svg.image?a_{min}=-5)
+
 ![](https://latex.codecogs.com/svg.image?h_{min}=-pi/2)
+
 ![](https://latex.codecogs.com/svg.image?h_{max}=-pi/2)
 
 #### Disable front obs lane change when ego car do a lane change
@@ -72,6 +78,23 @@ So, current config will may have a high variance and a low error due to the easy
 ![12](https://user-images.githubusercontent.com/80379828/113014496-3639e400-91af-11eb-851a-7697bdb8ce93.gif)
 
 All obstacles are IDMVehicle models and would lane change if a rear vehicle cut in its lane. And this motion will change the lane change scenario and are abnormal in relistic environment. So we disable the obstacle lane change motion if it is caused by ego car.
+
+### Control
+Use a simple PP controler to control v and s.
+## Rule-based method
+We construct rule-based methods according to 
+[window_selection.pdf](https://github.com/zhen-liu-github/high_env_simulator/files/6230431/window_selection.pdf). And the lane change time and success rate are shown as 
+__
+|obs_num | sample num | lane change time |lane change success rate|
+| 1      |   4        |   3.25               |  100%|
+| 2 || 32    |  | 87.5%|
+|  3 |  108 |  | 90.74%|
+|4  |  250 |    |94% |
+|5 |  271 |  5.50   |   92.62%|
+|6| 137| 5.14   | 94.89%|
+|7| 51|  5.42    | 94.12%|
+|8| 15| 6.8    | 93.33%|
+|9| 4|   2.90   | 100% |
 
 
 # run script with rule-based window selection.
