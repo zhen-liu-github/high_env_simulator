@@ -113,7 +113,7 @@ We construct a simple model to infer window confidence. The model structure is d
 ![model structure](https://user-images.githubusercontent.com/80379828/113032811-de0cdd00-91c2-11eb-94df-b147f3bc4587.png "model structure")
 ![data_driven](https://user-images.githubusercontent.com/80379828/112783107-199f8e00-9081-11eb-91e4-5f5a6898edb3.gif)
 ### Feature
-We only concat features of ego car and obs to get a 12-dimension window-feature.
+We only concat features of ego car and obs to get a 12-dimension window-feature including x, y, vx, vy, hx, hy.
 Currently, the model's performance is not stable and have a high crash rate.
 ![data_driven](https://user-images.githubusercontent.com/80379828/112783107-199f8e00-9081-11eb-91e4-5f5a6898edb3.gif)
 
@@ -122,7 +122,7 @@ The yellow window is the target window with the highest window confidence and bl
 |obs_num | sample num | lane change time |lane change success rate|
 |----|----|----|----|
 | 1      |   6        |   9.4               |  0.6667|
- |2 || 27    | 6.58 |0.4815|
+ |2 | 27    | 6.58 |0.4815|
 |  3 |  97 | 6.24 | 0.7112|
 |4  |  257 |  5.3  |0.7393 |
 |5 |  292 |   6.38 |   0.7192|
@@ -131,8 +131,8 @@ The yellow window is the target window with the highest window confidence and bl
 |8| 7|   6.67 | 0.4286|
 |9| 2|   6   | 0.5 |
 |10| 1|   7   | 1 |
-|overall| 874 | 5.46 | 92.67%|
-
+|overall| 879 | 6.78 | 0.7153|
+121/1000 crashed
 * Need feature engeering
 * Solve overfitting.
 * Wrong case analysis
