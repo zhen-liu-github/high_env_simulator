@@ -85,29 +85,26 @@ Use a simple PP controler to control v and s.
 We construct rule-based methods according to 
 [window_selection.pdf](https://github.com/zhen-liu-github/high_env_simulator/files/6230431/window_selection.pdf). And the lane change time and success rate are shown as 
 
-|语法|效果|
-|----|-----|
-|`*斜体1*`|*斜体1*|
-|`_斜体2_`| _斜体2_|
-|`**粗体1**`|**粗体1**|
-|`__粗体2__`|__粗体2__|
-|`这是一个 ~~删除线~~`|这是一个 ~~删除线~~|
-|`***斜粗体1***`|***斜粗体1***|
-|`___斜粗体2___`|___斜粗体2___|
-|`***~~斜粗体删除线1~~***`|***~~斜粗体删除线1~~***|
-|`~~***斜粗体删除线2***~~`|~~***斜粗体删除线2***~~|
-
 |obs_num | sample num | lane change time |lane change success rate|
 |----|----|----|----|
 | 1      |   4        |   3.25               |  100%|
- |2 || 32    |  | 87.5%|
-|  3 |  108 |  | 90.74%|
-|4  |  250 |    |94% |
+ |2 || 32    | 5.15 | 87.5%|
+|  3 |  108 | 5.46 | 90.74%|
+|4  |  250 |  5.49  |94% |
 |5 |  271 |  5.50   |   92.62%|
 |6| 137| 5.14   | 94.89%|
 |7| 51|  5.42    | 94.12%|
 |8| 15| 6.8    | 93.33%|
 |9| 4|   2.90   | 100% |
+|overall| 874 | 5.46 | 92.67%|
+![1](https://user-images.githubusercontent.com/80379828/113030159-df88d600-91bf-11eb-8bcd-3fecd256c508.gif)
+
+issue:
+* Weak control capability
+* Trade-off between saftey-check and lat lane change motion.
+* No collision check
+
+## Data-driven
 
 
 # run script with rule-based window selection.
