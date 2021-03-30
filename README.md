@@ -84,19 +84,19 @@ Use a simple PP controler to control v and s.
 ## Rule-based method
 We construct rule-based methods according to 
 [window_selection.pdf](https://github.com/zhen-liu-github/high_env_simulator/files/6230431/window_selection.pdf). And the lane change time and success rate are shown as 
-————————————————————————————————
 
-obs_num | sample num | lane change time |lane change success rate|
-————————|————————|————————|————————|
- 1      |   4        |   3.25               |  100%|
- 2 || 32    |  | 87.5%|
-  3 |  108 |  | 90.74%|
-4  |  250 |    |94% |
-5 |  271 |  5.50   |   92.62%|
-6| 137| 5.14   | 94.89%|
-7| 51|  5.42    | 94.12%|
-8| 15| 6.8    | 93.33%|
-9| 4|   2.90   | 100% |
+
+|obs_num | sample num | lane change time |lane change success rate|
+|————————|————————|————————|————————|
+| 1      |   4        |   3.25               |  100%|
+ |2 || 32    |  | 87.5%|
+|  3 |  108 |  | 90.74%|
+|4  |  250 |    |94% |
+|5 |  271 |  5.50   |   92.62%|
+|6| 137| 5.14   | 94.89%|
+|7| 51|  5.42    | 94.12%|
+|8| 15| 6.8    | 93.33%|
+|9| 4|   2.90   | 100% |
 
 
 # run script with rule-based window selection.
