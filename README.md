@@ -39,9 +39,11 @@ Currently we only consider 2 lane.
 Currently, we only consider lane change left.
 
 ## Vehicle action
-### ego_car
+
 * Increase velocity control accuracy and speed range.
 * Disable front obs lane change when ego car do a lane change.
+
+### Increase velocity control accuracy and speed range
 For convenience， we use a MDP-Vehicle model with a specified discrete range of allowed target speeds which use a high leve which use a high level action.
 The action space consists of Faster, Slower, IDLE, Left lane change, Right lane change. And the discrete target speed is defined as 
 ![](https://latex.codecogs.com/svg.image?V_{target}=V_{min}&plus;V_{index}*\frac{(V_{max}-V_{min})}{V_{count}-1). The default 
@@ -49,15 +51,25 @@ The action space consists of Faster, Slower, IDLE, Left lane change, Right lane 
 ![](https://latex.codecogs.com/svg.image?V_{min}=20)
 ![](https://latex.codecogs.com/svg.image?V_{count}=3)
 For a accuracy speed control, we set  
-![](https://latex.codecogs.com/svg.image?V_{min}=0)
+
+![](https://latex.codecogs.com/svg.image?V_{min}=0) 
+
 ![](https://latex.codecogs.com/svg.image?V_{count}=19)
-And the target and real speed fig of above config are shown as
+So, the default config has 2 target spped in average 10m/s, and current config has 6 target spped in average 10m/s.
+
+And the target and real speed fig of above configs are shown as
 ![default target_real_v](https://user-images.githubusercontent.com/80379828/112982037-8fdde680-918e-11eb-9a02-ce84d1ef6378.png "default target_real_v")
 ![target_real_v](https://user-images.githubusercontent.com/80379828/112983079-cd8f3f00-918f-11eb-9525-5fe01a864693.png "target_real_v")
+So, current config will may have a high variance and a low error due to the easy changeable target velocity.
+![](https://latex.codecogs.com/svg.image?a_{max}=5)
+![](https://latex.codecogs.com/svg.image?a_{min}=-5)
+![](https://latex.codecogs.com/svg.image?h_{min}=-pi/2)
+![](https://latex.codecogs.com/svg.image?h_{max}=-pi/2)
 
-
-
-* Increase target_speed .
+#### Disable front obs lane change when ego car do a lane change
+![rule_based_1](https://user-images.githubusercontent.com/80379828/112783501-09d47980-9082-11eb-9a26-f211209a4b09.gif)
+![5](https://user-images.githubusercontent.com/80379828/113013332-371e4600-91ae-11eb-9bd6-08481bf1c978.gif)
+All obstacles are IDMVehicle models and coule lane change if a rear vehicle cut in its lane. But this motion will change the lane change scenario and are abnormal in relistic environment.
 # run script with rule-based window selection.
 python model_test.py --type rule-based
 ![rule-based](https://user-images.githubusercontent.com/80379828/112783305-a0546b00-9081-11eb-8bf8-17dbbe4ce476.gif)
