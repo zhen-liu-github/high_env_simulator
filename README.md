@@ -16,10 +16,10 @@ and obs speed
 For each obs speed, we sampele the velocity 
 ![](http://latex.codecogs.com/svg.latex?$V_{0bs_i}$)
 from a narrow norm distribution with 
-![](http://latex.codecogs.com/svg.latex?$loc=V_{obs_i}, scale=V_{obs_i}^0.5$).
+![](http://latex.codecogs.com/svg.latex?$loc=V_{obs_i}, scale=V_{obs_i}^0.5$)
 ![](http://latex.codecogs.com/svg.latex?$V_{0bs_i}$)
 
-![A toy obstacles example with 30 overall obs speed](https://user-images.githubusercontent.com/80379828/112946500-2945d200-9168-11eb-8561-372a8a97effe.png an obs speed distribution)
+![A toy obstacles example with 30 overall obs speed](https://user-images.githubusercontent.com/80379828/112946500-2945d200-9168-11eb-8561-372a8a97effe.png "an obs speed distribution")
 
 # run script with rule-based window selection.
 python model_test.py --type rule-based
