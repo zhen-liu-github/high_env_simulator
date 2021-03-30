@@ -1,8 +1,5 @@
 from .base_solver import BaseSolver
-from highway_env.envs.common.action import ContinuousAction
-from .utils import LaneChangeWindow, GetWindowByIndex, PID, CheckReady
 from ..config import env_config, model_config
-import math
 import numpy as np
 import torch
 from .utils import LaneChangeWindow, CheckReady
@@ -18,7 +15,7 @@ class DataDrivenSolver(BaseSolver):
         return obs_observations
 
     def postprocess(self, observation):
-        window_list, best_index = observation
+        _, best_index = observation
         self.target_window = self.window_list[best_index]
         self.action['is_ready'] = False
         if CheckReady(self.target_window, self.ego_car,

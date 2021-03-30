@@ -5,14 +5,23 @@ def kinematic(v, a):
 
     return
 
-def GetVehicleX(vehicle)->float:
-        return vehicle.position[0]
-def GetVehicleY(vehicle)->float:
+
+def GetVehicleX(vehicle) -> float:
+    return vehicle.position[0]
+
+
+def GetVehicleY(vehicle) -> float:
     return vehicle.position[1]
-def GetVelocityX(vehicle)->float:
+
+
+def GetVelocityX(vehicle) -> float:
     return vehicle.velocity[0]
-def GetVelocityY(vehicle)->float:
+
+
+def GetVelocityY(vehicle) -> float:
     return vehicle.velocity[1]
+
+
 class LaneChangeWindow(object):
     def __init__(self, front_vehicle, rear_vehicle):
         '''
@@ -36,7 +45,6 @@ class LaneChangeWindow(object):
     def GetVehicleFromIndex(cls, index, env):
         return env.road.vehicles[1 + index]
 
-    
     def getWindowInfo(self, ego_car):
         # Get the window information.
         # Some attribute rely on ego_car, may a bad logic.
@@ -56,15 +64,16 @@ class LaneChangeWindow(object):
                              1 if self.rear_is_valid else 0 + 1e-10)
         v_ego = ego_car[3]
         self.window_v = v_ego if not self.front_is_valid and not self.rear_is_valid else self.window_v
-        a_min_ego = env_config['ego_min_a']
         a_min_vehicle = env_config['vehicle_min_a']
         t_react = env_config['T_react']
         if self.front_is_valid:
             v_front = self.front_v
-            front_safe_dis = v_front**2/abs(a_min_vehicle)*0.5 +v_front*t_react
+            front_safe_dis = v_front**2 / abs(
+                a_min_vehicle) * 0.5 + v_front * t_react
         if self.rear_is_valid:
             v_rear = self.rear_v
-            rear_safe_dis = v_rear**2/abs(a_min_vehicle)*0.5+v_rear*t_react
+            rear_safe_dis = v_rear**2 / abs(
+                a_min_vehicle) * 0.5 + v_rear * t_react
         if not self.front_is_valid:
             self.window_s = ego_car[
                 1] if not self.rear_is_valid else self.rear_s + rear_safe_dis
@@ -95,7 +104,6 @@ class LaneChangeWindow(object):
         return res
 
 
-
 def GetWindowByIndex(front_obs, rear_obs, index, env):
     front_size = len(front_obs)
     rear_size = len(rear_obs)
@@ -114,10 +122,11 @@ def GetWindowByIndex(front_obs, rear_obs, index, env):
 def GetSafetyDis(v_front, v_rear, a_front, a_rear, t_react, is_front=False):
     if is_front:
         return max(
-            0, v_rear**2 / a_rear *0.5 + t_react * v_rear - v_front**2 / a_front *0.5)
+            0, v_rear**2 / a_rear * 0.5 + t_react * v_rear -
+            v_front**2 / a_front * 0.5)
     return max(
-        0,
-        v_rear**2 / (2 * a_rear) - (v_front**2 / a_front * 0.5+ t_react * v_front))
+        0, v_rear**2 / (2 * a_rear) -
+        (v_front**2 / a_front * 0.5 + t_react * v_front))
 
 
 def CheckReady(window, ego_car, ego_min_a, vehicle_min_a):
@@ -137,10 +146,10 @@ def CheckReady(window, ego_car, ego_min_a, vehicle_min_a):
 
 class PID:
     # Copied from https://www.jb51.net/article/167234.htm
-    def __init__(self, P=0.1, I=0.0, D=0.0, time_interval=0.1):
-        self.Kp = P
-        self.Ki = I
-        self.Kd = D
+    def __init__(self, P_value=0.1, I_value=0.0, D_value=0.0, time_interval=0.1):
+        self.Kp = P_value
+        self.Ki = I_value
+        self.Kd = D_value
         self.time_interval = time_interval
         self.clear()
         self.feedback_sum = 0
@@ -166,8 +175,8 @@ class PID:
         error = self.SetPoint - feedback_value
         delta_time = self.time_interval
         delta_error = error - self.last_error
-        self.PTerm = self.Kp * error  #比例
-        self.ITerm += error * delta_time  #积分
+        self.PTerm = self.Kp * error  # 比例
+        self.ITerm += error * delta_time  # 积分
         if (self.ITerm < -self.windup_guard):
             self.ITerm = -self.windup_guard
         elif (self.ITerm > self.windup_guard):

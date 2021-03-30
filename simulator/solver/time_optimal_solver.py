@@ -1,8 +1,6 @@
 from simulator.solver.base_solver import BaseSolver
-from highway_env.envs.common.action import ContinuousAction
-from .utils import LaneChangeWindow, GetWindowByIndex, PID, CheckReady
+from .utils import GetWindowByIndex, CheckReady
 from ..config import env_config
-import math
 import numpy as np
 
 
@@ -62,16 +60,14 @@ class TimeOptimalSolver(BaseSolver):
     def _solve(self, window_list):
         best_time = float('inf')
         best_window = None
-        min_error = float('inf')
         have_same_window = False
         if self.if_window_unchangeable and self.target_window is not None:
             # This logic is for PID controler gain choice and can chase a unchangeable window.
-            min_error = float('inf')
             interval = int(env_config['simulation_frequency'] /
                            env_config['policy_frequency'])
             for window in window_list:
-                if (window.front_vehicle is None)!= (self.target_window.front_vehicle is None) or \
-                    (window.rear_vehicle is None)!=(self.target_window.rear_vehicle is None):
+                if (window.front_vehicle is None) != (self.target_window.front_vehicle is None) or \
+                    (window.rear_vehicle is None) != (self.target_window.rear_vehicle is None):
                     continue
 
                 if ((window.front_vehicle is not None

@@ -1,12 +1,5 @@
-import numpy as np
-from matplotlib import pyplot as plt, gridspec as gridspec
-import seaborn as sns
 import matplotlib as mpl
 import matplotlib.cm as cm
-
-from rl_agents.utils import remap, constrain
-
-from simulator.config import model_config
 
 import pygame
 
@@ -30,7 +23,7 @@ class SolverGraphic(object):
         :param display_text: whether to display the window values as text
         """
         if not solver.window_is_display:
-            return 
+            return
         target_window = solver.target_window
         front = (
             target_window.front_s - sim_surface.origin[0]
@@ -41,7 +34,6 @@ class SolverGraphic(object):
         cell_size = (front - rear, surface.get_height())
         pygame.draw.rect(surface, cls.BLACK,
                          (0, 0, surface.get_width(), surface.get_height()), 0)
-        window_rear_list = []
         if solver.model_config['type'] == 'data-driven' and solver.model_config[
                 'data-driven']['multi-window-display']:
             # Draw all lane change window.
@@ -57,9 +49,9 @@ class SolverGraphic(object):
                 for index, window in enumerate(solver.window_list):
                     cls.DrawText(
                         window,
-                        'window_s={:.2f}, window_index={}, window_v={:.2f}, w_f:{:.2f}'.format(
-                            window.window_s, index, window.window_v,
-                            solver.window_confidence[index]),
+                        'window_s={:.2f}, window_index={}, window_v={:.2f}, w_f:{:.2f}'
+                        .format(window.window_s, index, window.window_v,
+                                solver.window_confidence[index]),
                         surface.get_height() / len(solver.window_list) * index,
                         surface, sim_surface)
 
@@ -74,7 +66,7 @@ class SolverGraphic(object):
                     surface.get_height() / 2, surface, sim_surface)
 
         else:
-            
+
             best_time = solver.best_time
             # Display node value
             cmap = cm.jet_r
