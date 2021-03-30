@@ -2,7 +2,7 @@
 This repository is based on the [Highway-env](https://github.com/eleurent/highway-env) and aims to compare different lane change method's performances.
 
 ## Env config.
-The env distribution of the simulator will affect the mothod performance. And a perfect simulator has a realistic env and can focus on the difficult part. 
+The env distribution of the simulator will affect the mothod performance. And a perfect simulator shoule have a realistic env and can focus on difficult parts. 
 Currently, speed distribution of ego car and obstacles, obstacles num, average distance between obstacles, lane num, lane change direction and so on.
 
 ### Speed distribution
@@ -10,7 +10,7 @@ The speed of ego car and lane change window have a huge impact on lane change mo
 
 ![speed distribution fig](https://user-images.githubusercontent.com/80379828/112944678-bc313d00-9165-11eb-8dcc-774b3eb8bac2.png "speed_distribution_fig")
 
-Firstly, we random sample ego speed 
+Firstly, we sample ego speed 
 ![](http://latex.codecogs.com/svg.latex?V_{ego})
 and obs speed 
 ![](http://latex.codecogs.com/svg.latex?V_{obs})
@@ -31,6 +31,12 @@ The more obstacles, the more difficult to lane change. To ensure a relistic and 
 ### Average distance between obstacles
 We set distance between adjacent obs according to their speeds and obs num.
 ![](https://latex.codecogs.com/svg.image?D_{obs}=max(D_{safe},&space;\frac{200}{obs_{num}}&plus;U(-4,&space;4)))
+
+### Lane num
+Currently we only consider 2 lane.
+### Lane change direction
+Currently, we only consider lane change left.
+
 
 # run script with rule-based window selection.
 python model_test.py --type rule-based
