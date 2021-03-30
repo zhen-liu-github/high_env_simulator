@@ -85,6 +85,7 @@ Use a simple PP controler to control v and s.
 We construct rule-based methods according to 
 [window_selection.pdf](https://github.com/zhen-liu-github/high_env_simulator/files/6230431/window_selection.pdf). And the lane change time and success rate are shown as 
 ————————————————————————————————
+
 obs_num | sample num | lane change time |lane change success rate|
  1      |   4        |   3.25               |  100%|
  2 || 32    |  | 87.5%|
