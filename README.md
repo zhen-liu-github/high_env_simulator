@@ -1,10 +1,13 @@
-## high_env_simulator
+# high_env_simulator
 This repository is based on the [Highway-env](https://github.com/eleurent/highway-env) and aims to compare different lane change method's performances.
 
-#Env config.
+## Env config.
 The env distribution of the simulator will affect the mothod performance. And a perfect simulator has a realistic env and can focus on the difficult part. 
-Currently, speed distribution of ego car and obstacles, obstacles num, average distance between obstacles,  
-The speed of ego car and lane change window have a huge impact on lane change motion.
+Currently, speed distribution of ego car and obstacles, obstacles num, average distance between obstacles, lane num, lane change direction and so on.
+
+The speed of ego car and lane change window have a huge impact on lane change motion. A typically overall speed distribution is seems like the following.
+![speed distribution fig](https://user-images.githubusercontent.com/80379828/112944678-bc313d00-9165-11eb-8dcc-774b3eb8bac2.png speed distribution fig)
+Firstly, we random sample ego speed $V_{ego}$ and obs speed $V_{obs}$. For each obs speed, we sampele the velocity $V_{0bs_i}$ from a narrow norm distribution.
 
 
 # run script with rule-based window selection.
