@@ -43,9 +43,9 @@ Currently, we only consider lane change left.
 For convenience， we use a MDP-Vehicle model with a specified discrete range of allowed target speeds which use a high leve which use a high level action.
 The action space consists of Faster, Slower, IDLE, Left lane change, Right lane change. And the discrete target speed is defined as 
 ![](https://latex.codecogs.com/svg.image?V_{target}=V_{min}&plus;V_{index}*\frac{(V_{max}-V_{min})}{V_{count}-1). The default 
-![](https://latex.codecogs.com/svg.image?V_{max}=30" title="V_{max}=30)
-![](https://latex.codecogs.com/svg.image?V_{max}=30" title="V_{min}=20)
-![](https://latex.codecogs.com/svg.image?V_{max}=30" title="V_{count}=3)
+![](https://latex.codecogs.com/svg.image?V_{max}=30)
+![](https://latex.codecogs.com/svg.image?V_{min}=20)
+![](https://latex.codecogs.com/svg.image?V_{count}=3)
 For a accuracy speed control, we set  
 ![](https://latex.codecogs.com/svg.image?V_{max}=30" title="V_{min}=0)
 ![](https://latex.codecogs.com/svg.image?V_{max}=30" title="V_{count}=9)
