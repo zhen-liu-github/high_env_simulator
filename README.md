@@ -1,4 +1,8 @@
 # high_env_simulator
+This repository is based on the [Highway-env](https://github.com/eleurent/highway-env).
+
+The speed of ego car and lane change window have a huge impact on lane change motion.
+
 
 # run script with rule-based window selection.
 python model_test.py --type rule-based
