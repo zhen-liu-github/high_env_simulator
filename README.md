@@ -97,9 +97,11 @@ We construct rule-based methods according to
 |8| 15| 6.8    | 93.33%|
 |9| 4|   2.90   | 100% |
 |overall| 874 | 5.46 | 92.67%|
+
 126/1000 crashed.
 ![1](https://user-images.githubusercontent.com/80379828/113030159-df88d600-91bf-11eb-8bcd-3fecd256c508.gif)
 The yellow window is the target window with the minimum chasing window time.
+
 issue:
 * Weak control capability
 * Trade-off between saftey-check and lat lane change motion.
@@ -130,6 +132,7 @@ The yellow window is the target window with the highest window confidence and bl
 |9| 2|   6   | 0.5 |
 |10| 1|   7   | 1 |
 |overall| 874 | 5.46 | 92.67%|
+
 * Need feature engeering
 * Solve overfitting.
 * Wrong case analysis
