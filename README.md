@@ -146,6 +146,6 @@ python model_test.py --type rule-based
 
 python model_test.py --type data-driven
 
-* If you have any feedback or suggestions, feel free to contact me.
-* zhen.liu (slack)
-* zhen.liu@plus.ai （email)
+### If you have any feedback or suggestions, feel free to contact me.
+### zhen.liu (slack)
+### zhen.liu@plus.ai （email)
