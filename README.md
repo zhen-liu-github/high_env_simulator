@@ -114,8 +114,7 @@ We construct a simple model to infer window confidence. The model structure is d
 ![data_driven](https://user-images.githubusercontent.com/80379828/112783107-199f8e00-9081-11eb-91e4-5f5a6898edb3.gif)
 ### Feature
 We only concat features of ego car and obs to get a 12-dimension window-feature including x, y, vx, vy, hx, hy.
-Currently, the model's performance is not stable and have a high crash rate.
-![data_driven](https://user-images.githubusercontent.com/80379828/112783107-199f8e00-9081-11eb-91e4-5f5a6898edb3.gif)
+Currently, the model's results are not stable.
 
 The yellow window is the target window with the highest window confidence and blue windows are all feasible lane change window.
 (The train dataset comes from rule-based window selection simulations.)
