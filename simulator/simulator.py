@@ -19,6 +19,7 @@ from simulator.solver.graphic import SolverGraphic
 from simulator.utils.utils import RemoveCurrentLaneOtherVehilces
 from simulator.solver.utils import LaneChangeWindow
 from simulator.utils.utils import AverageMetric
+from simulator.utils.utils import MetricDict
 
 
 class simulator(object):
@@ -27,7 +28,7 @@ class simulator(object):
                  solver,
                  num_episodes,
                  display_env=True,
-                 if_render = True,
+                 if_render=True,
                  save_data=False):
         self.env = env
         self.solver = solver
@@ -47,9 +48,8 @@ class simulator(object):
             self.monitor.render()
             if self.display_env:
                 self.drawWindow()
-        self.lane_change_time = AverageMetric('lane_change_time')
-        self.lane_change_success_rate = AverageMetric(
-            'lane_change_success_rate')
+        self.lane_change_time = MetricDict()
+        self.lane_change_success_rate = MetricDict()
         self.lane_change_time_index = 0
 
     def simulate(self):
@@ -91,9 +91,10 @@ class simulator(object):
                     action = [self.results['a'], self.results['theta']]
                 elif env_config['action']['type'] == 'DiscreteMetaAction':
                     action = self.results['output']
-                
+
                 self.v.append(self.monitor.env.controlled_vehicles[0].speed)
-                self.s.append(self.monitor.env.controlled_vehicles[0].target_speed)
+                self.s.append(
+                    self.monitor.env.controlled_vehicles[0].target_speed)
                 self.observation, reward, terminal, info = self.monitor.step(
                     action)
                 if self.if_render:
@@ -102,7 +103,7 @@ class simulator(object):
                 self.results = self.solver.solve(self.observation, self.env)
                 observations.append(self.observation)
             plt.figure(figsize=(200, 400))
-            fig, ax=plt.subplots(1, 1)
+            fig, ax = plt.subplots(1, 1)
             ax.scatter(np.arange(len(self.v)), self.v, label='real_v')
             ax.scatter(np.arange(len(self.s)), self.s, label='target_v')
             plt.title('current')
@@ -110,14 +111,24 @@ class simulator(object):
             plt.savefig('./2.png')
             plt.close()
 
-            # Statistic lane change info.
-            # Currently, we only statistic no crashed case.
             if not info['crashed']:
+                # Statistic lane change info.
+                # Currently, we only statistic no crashed case.
+                if model_config['type'] == 'rule-based':
+                    obs_num = len(self.solver.front_obs + self.solver.rear_obs)
+                elif model_config['type'] == 'data-driven':
+                    obs_num = len(self.solver.window_list) - 1
                 if self.observation[0][2] > 3:
-                    self.lane_change_time.add(
+                    if obs_num not in self.lane_change_time.keys():
+                        self.lane_change_time[obs_num] = AverageMetric(
+                            'Obs_num:{} lane change time'.format(obs_num))
+                    self.lane_change_time[obs_num].add(
                         self.lane_change_time_index /
                         env_config['vehicles_count'], 1)
-                self.lane_change_success_rate.add(
+                if obs_num not in self.lane_change_success_rate.keys():
+                    self.lane_change_success_rate[obs_num] = AverageMetric(
+                        'Obs_num{}: lane change success rate'.formta(obs_num))
+                self.lane_change_success_rate[obs_num].add(
                     1 if self.observation[0][2] > 3 else 0, 1)
             total_observations.append(observations)
             if self.save_data:
@@ -184,6 +195,8 @@ class simulator(object):
         return result
 
     def GetGTWindow(self, current_data, last_window):
+        # This method aims to find last frame GT window from current frame GT window.
+        # Cause we only have the GT window after ego car did the lane change.
         # Get current GT window from last GT window.
         ego_car = current_data[0][7:]
         if not last_window:
