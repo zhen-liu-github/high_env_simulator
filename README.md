@@ -2,7 +2,7 @@
 This repository is based on the [Highway-env](https://github.com/eleurent/highway-env) and aims to compare different lane change method's performances.
 
 ## Env config.
-The env distribution of the simulator will affect the mothod performance. And a perfect simulator shoule have a realistic env and can focus on difficult parts. 
+The env distribution of the simulator will affect the mothod performance. And a good simulator shoule have a realistic env and can focus on difficult parts. 
 Currently, speed distribution of ego car and obstacles, obstacles num, average distance between obstacles, lane num, lane change direction and so on.
 
 ### Speed distribution
@@ -147,4 +147,4 @@ python model_test.py --type rule-based
 python model_test.py --type data-driven
 
 
-
+## If you have any feedback or suggestions, feel free to contact me.  [zhen.liu](zhen.liu@plus.ai)
