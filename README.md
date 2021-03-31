@@ -138,8 +138,22 @@ The yellow window is the target window with the highest window confidence and bl
 # run script with rule-based window selection.
 python model_test.py --type rule-based
 
+|----|----|----|
+|target speed num |  3 (20-30)|  31(0-30)|
+| | ![target_speed_3_small](https://user-images.githubusercontent.com/80379828/113117939-8a8da400-9241-11eb-847f-4f67f4fc38e2.gif)
+| ![data_driven_small](https://user-images.githubusercontent.com/80379828/113117974-924d4880-9241-11eb-90e4-89a0b24bcc56.gif)|
 
 
+
+
+
+# Experiments
+## Selection of discrete target speed.
+	We find rule based ego car has some abnormal motion, such as overshooting when chasing target window, stop due to lat motion. First, we think it may due to 	the week dynamic control. So we adjust discrete target speed num from 3 to 31, speed range (20, 30) to (0, 30). and design some comparative experiments.
+### Stop due to lat motion with a low speed
+
+
+A commom problem is that ego car may overshoot in s when chasing the target window. Here is a caes. 
 
 
 # run script with data-driven window selection.
