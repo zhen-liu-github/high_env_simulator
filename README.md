@@ -158,7 +158,6 @@ A commom problem is that ego car may overshoot in s when chasing the target wind
 python model_test.py --type rule-based
 # run script with data-driven window selection.
 
-python model_test.py --type data-driven
 
 ### If you have any feedback or suggestions, feel free to contact me.
 ### zhen.liu (slack)
