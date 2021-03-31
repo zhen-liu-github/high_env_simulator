@@ -138,10 +138,11 @@ The yellow window is the target window with the highest window confidence and bl
 # run script with rule-based window selection.
 python model_test.py --type rule-based
 
-|----|----|----|
-|target speed num |  3 (20-30)|  31(0-30)|
+
+|target speed num |  3 (20-30)|  31(0-30)|  
+|----|----|----|  
 | | ![target_speed_3_small](https://user-images.githubusercontent.com/80379828/113117939-8a8da400-9241-11eb-847f-4f67f4fc38e2.gif)
-| ![data_driven_small](https://user-images.githubusercontent.com/80379828/113117974-924d4880-9241-11eb-90e4-89a0b24bcc56.gif)|
+| ![data_driven_small](https://user-images.githubusercontent.com/80379828/113117974-924d4880-9241-11eb-90e4-89a0b24bcc56.gif)|  
 
 
 
