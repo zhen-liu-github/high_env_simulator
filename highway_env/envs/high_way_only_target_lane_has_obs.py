@@ -29,7 +29,7 @@ class OnlyTargetLaneHasObsHighWayEnv(HighwayEnv):
             "collision_reward": -1,
             "reward_speed_range": [20, 30],
             "offroad_terminal": False,
-            "average_vehilve_distance": 20,
+            "average_vehicle_distance": 20,
         })
         return config
     def _is_terminal(self) -> bool:

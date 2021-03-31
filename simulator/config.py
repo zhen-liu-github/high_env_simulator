@@ -30,6 +30,10 @@ env_config = {
     # "import_module": "high_way_only_target_lane_has_obs",
     "show_trajectories": True,
     "lanes_count": 2,
+    "ego_car": {
+        "length": 5,
+        "width": 2,
+    },
     "action": {
         "type": "DiscreteMetaAction",
     },
@@ -56,7 +60,7 @@ env_config = {
     "other_vehicles_type": "highway_env.vehicle.behavior.IDMVehicle",
     "centering_position": [0.3, 0.5],
     "other_vehicle_lane_id": 1,
-    "average_vehilve_distance": 15,
+    "average_vehicle_distance": 15,
     "ego_min_a": -5,
     "ego_max_a": 5,
     "vehicle_min_a": -5,

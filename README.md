@@ -2,7 +2,7 @@
 This repository is based on the [Highway-env](https://github.com/eleurent/highway-env) and aims to compare different lane change method's performances.
 
 ## Env config.
-The env distribution of the simulator will affect the mothod performance. And a perfect simulator shoule have a realistic env and can focus on difficult parts. 
+The env distribution of the simulator will affect the mothod performance. And a good simulator shoule have a realistic env and can focus on difficult parts. 
 Currently, speed distribution of ego car and obstacles, obstacles num, average distance between obstacles, lane num, lane change direction and so on.
 
 ### Speed distribution
@@ -106,7 +106,7 @@ issue:
 * Weak control capability
 * Trade-off between saftey-check and lat lane change motion.
 * No collision check
-
+* ### Chasing a different window with the lane change window which may cause a collision.
 ## Data-driven
 We construct a simple model to infer window confidence. The model structure is defined as :
 ### Model structure
@@ -135,16 +135,31 @@ The yellow window is the target window with the highest window confidence and bl
 * Need feature engeering
 * Solve overfitting.
 * Wrong case analysis
+
+
+# Experiments
+## Selection of discrete target speed num.
+We find rule based ego car has some abnormal motion, such as overshooting when chasing target window, stop due to lat motion. First, we think it may due to 	the week dynamic control. So we adjust discrete target speed num from 3 to 31, speed range (20, 30) to (0, 30). and design some comparative experiments.
+## Avoid collision.
+|target speed num |  git|  target_real_v fig| 
+|----|----|----|  
+| normal case(7 target speed)| ![target_speed_7](./MD/assets/1_episode_target_speed_7_crashed.gif)| ![target_speed_3_small](./MD/assets/1_episode_target_speed_7_crashed.png) |  
+|normal case(61 target speed)| ![data_driven_small](./MD/assets/1_episode_target_speed_61.gif)| ![episode_2_target_speed_31](./MD/assets/1_episode_target_speed_61.png)  
+### Avoid stop due to a large heading.
+|target speed num |  git|  target and real speed fig| 
+|----|----|----|  
+| normal case(7 target speed)| ![target_speed_7](./MD/assets/2_episode_target_speed_7_stop.gif)| ![target_speed_3_small](./MD/assets/2_episode_target_speed_7_stop.png) |  
+|normal case(61 target speed)| ![data_driven_small](./MD/assets/2_episode_target_speed_61.gif)| ![episode_2_target_speed_31](./MD/assets/2_episode_target_speed_61.png)
+
+
+A commom problem is that ego car may overshoot in s when chasing the target window. Here is a case. 
+
 # run script with rule-based window selection.
 python model_test.py --type rule-based
-
-
-
-
-
 # run script with data-driven window selection.
 
 python model_test.py --type data-driven
 
-
-
+### If you have any feedback or suggestions, feel free to contact me.
+### zhen.liu (slack)
+### zhen.liu@plus.ai （email)

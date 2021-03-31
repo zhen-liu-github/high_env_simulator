@@ -29,7 +29,7 @@ class OnlyTargetLaneHasObsHighWayEnv(HighwayEnv):
             "collision_reward": -1,
             "reward_speed_range": [20, 30],
             "offroad_terminal": False,
-            "average_vehilve_distance": 20,
+            "average_vehicle_distance": 20,
         })
         return config
 
@@ -52,17 +52,17 @@ class OnlyTargetLaneHasObsHighWayEnv(HighwayEnv):
             self.controlled_vehicles.append(controlled_vehicle)
             self.road.vehicles.append(controlled_vehicle)
             rear_pos = controlled_vehicle.destination[0] - \
-                self.config['average_vehilve_distance']*others/2
+                self.config['average_vehicle_distance']*others/2
             for i in range(others):
                 self.road.vehicles.append(
                     other_vehicles_type.make_on_lane(
                         self.road,
                         ['0', '1', self.config["other_vehicle_lane_id"]],
                         longitudinal=rear_pos +
-                        i * self.config['average_vehilve_distance'] +
+                        i * self.config['average_vehicle_distance'] +
                         np.random.uniform(
-                            (-self.config['average_vehilve_distance'] / 2 + 3,
-                             self.config['average_vehilve_distance'] / 2 - 3)),
+                            (-self.config['average_vehicle_distance'] / 2 + 3,
+                             self.config['average_vehicle_distance'] / 2 - 3)),
                         speed=15 + np.random.uniform(-4, 4)))
 
 

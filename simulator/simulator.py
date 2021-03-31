@@ -130,7 +130,7 @@ class simulator(object):
                         env_config['vehicles_count'], 1)
                 if obs_num not in self.lane_change_success_rate.keys():
                     self.lane_change_success_rate[obs_num] = AverageMetric(
-                        'Obs_num{}: lane change success rate'.formta(obs_num))
+                        'Obs_num{}: lane change success rate'.format(obs_num))
                 self.lane_change_success_rate[obs_num].add(
                     1 if self.observation[0][2] > 3 else 0, 1)
             total_observations.append(observations)
