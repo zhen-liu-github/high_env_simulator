@@ -1,27 +1,28 @@
 import sys
 import os
+
 path = sys.argv[0]
 vehicle_config = {}
 model_config = {
-    "data_save_path": 'simulator/data/',
-    "type": "rule-based",
-    "model_path": os.path.join('/'.join(path.split('/')[:-1]), 'models', 'saved_model', 'saved_model'),
+    "data_save_path":
+    'simulator/data/',
+    "type":
+    "rule-based",
+    "model_path":
+    os.path.join('/'.join(path.split('/')[:-1]), 'models', 'saved_model',
+                 'saved_model'),
     "data-driven": {
         "feature_index": {
-        "x": 1,
-        "y": 2,
-        "vx":3,
-        "vy":4,
-        "cos_h":5,
-        "sin_h":6,
+            "x": 1,
+            "y": 2,
+            "vx": 3,
+            "vy": 4,
+            "cos_h": 5,
+            "sin_h": 6,
         },
         "multi-window-display": True,
     },
-    "rule-based": {
-
-    }
-    
-
+    "rule-based": {}
 }
 env_config = {
     "id": "highway-only-target-lane-has-obs-v0",
@@ -61,11 +62,8 @@ env_config = {
     "vehicle_min_a": -5,
     "vehicle_max_a": 5,
     "T_react": 0.3,
-
 }
 exp_config = {
     "episodes": 200,
     "run_dictory": './exp/',
-
 }
-

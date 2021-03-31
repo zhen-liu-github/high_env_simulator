@@ -1,5 +1,3 @@
-import math
-
 
 class AverageMetric():
     def __init__(self, name):
@@ -24,16 +22,18 @@ class MetricDict(dict):
     def __init__(self):
         super(MetricDict, self).__init__()
     # Restructure "__str__" and "__repr__" methods.
+
     def __str__(self):
         res = ''
         for key in self.keys():
             res += str(self[key])
             res += '\n'
         return res
+
     def __repr__(self):
         return self.__init__()
 
-        
+
 def RemoveCurrentLaneOtherVehilces(vehicles):
     res = []
     res.append(vehicles[0])

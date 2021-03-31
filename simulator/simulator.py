@@ -1,22 +1,11 @@
-import datetime
-import os
-import functools
-
 import numpy as np
 import matplotlib.pyplot as plt
-from gym.envs.classic_control import rendering
-import gym
-from rl_agents.agents.common.factory import load_agent, load_environment
+from rl_agents.agents.common.factory import load_environment
 from rl_agents.trainer.monitor import MonitorV2
-from gym.envs.classic_control import rendering
-from highway_env.vehicle.behavior import IDMVehicle
-from highway_env.vehicle.controller import ControlledVehicle
-from highway_env.vehicle.kinematics import Vehicle
 
 from simulator.config import env_config, model_config
 from simulator.solver.time_optimal_solver import TimeOptimalSolver
 from simulator.solver.graphic import SolverGraphic
-from simulator.utils.utils import RemoveCurrentLaneOtherVehilces
 from simulator.solver.utils import LaneChangeWindow
 from simulator.utils.utils import AverageMetric
 from simulator.utils.utils import MetricDict
@@ -27,18 +16,24 @@ class simulator(object):
                  env,
                  solver,
                  num_episodes,
+                 seed=None,
+                 begin_episode=0,
                  display_env=True,
                  if_render=True,
+                 draw_v_fig=False,
                  save_data=False):
         self.env = env
         self.solver = solver
         self.num_episodes = num_episodes
-        self.if_render = if_render
+        self.sim_seed = seed
+        self.begin_episode = begin_episode
         self.display_env = display_env
+        self.if_render = if_render
+        self.draw_v_fig = draw_v_fig
+        self.save_data = save_data
         # Inner attributes
         self.episode = 0
         self.observation = None
-        self.save_data = save_data
         self.monitor = MonitorV2(
             # env, None, video_callable=(None if self.display_env else False))
             env,
@@ -55,13 +50,14 @@ class simulator(object):
     def simulate(self):
         total_observations = []
         all_data = []
-        for self.episode in range(self.num_episodes):
+        for self.episode in range(self.begin_episode, self.num_episodes):
             terminal = False
-            # self.seed(self.episodes)
+            self.seed(self.episode)
             self.reset()
             observations = []
             self.results = {}
             self.results['theta'] = 0
+            # Initialize action outputs.
             if env_config['action']['type'] == 'ContinuousAction':
                 self.results['a'] = 0
                 self.results['v'] = 0
@@ -69,17 +65,19 @@ class simulator(object):
             elif env_config['action']['type'] == 'DiscreteMetaAction':
                 self.results['output'] = 0
             self.results['is_ready'] = False
-            # for vis
+            # for speed figure vis.
             self.v = []
             self.s = []
             epoch_data = []
             while not terminal:
+                # Lane change time indexing.
                 self.lane_change_time_index += 1
+
                 if self.save_data:
                     epoch_data.append(np.array(self.observation))
 
                 if self.results['is_ready']:
-                    # Get exist near lane to trigger lane change
+                    # If the window is ready, do lat motion.
                     y = self.env.vehicle.position[1]
                     if y < 3.8:
                         action = 2
@@ -88,28 +86,33 @@ class simulator(object):
                     else:
                         action = self.results['output']
                 elif env_config['action']['type'] == 'ContinuousAction':
-                    action = [self.results['a'], self.results['theta']]
+                    action = [self.results['a'], self.results['theta']] # a, theta
                 elif env_config['action']['type'] == 'DiscreteMetaAction':
-                    action = self.results['output']
+                    action = self.results['output'] # Discrete high-level motion.
+                
+                self.observation, _, terminal, info = self.monitor.step(
+                        action)
+                self.results = self.solver.solve(self.observation, self.env)
+                observations.append(self.observation)
 
-                self.v.append(self.monitor.env.controlled_vehicles[0].speed)
-                self.s.append(
-                    self.monitor.env.controlled_vehicles[0].target_speed)
-                self.observation, reward, terminal, info = self.monitor.step(
-                    action)
+                if self.draw_v_fig:
+                    # Draw and save  
+                    self.v.append(self.monitor.env.controlled_vehicles[0].speed)
+                    self.s.append(
+                        self.monitor.env.controlled_vehicles[0].target_speed)
+                    
                 if self.if_render:
                     self.monitor.render()
 
-                self.results = self.solver.solve(self.observation, self.env)
-                observations.append(self.observation)
-            plt.figure(figsize=(200, 400))
-            fig, ax = plt.subplots(1, 1)
-            ax.scatter(np.arange(len(self.v)), self.v, label='real_v')
-            ax.scatter(np.arange(len(self.s)), self.s, label='target_v')
-            plt.title('current')
-            plt.legend()
-            plt.savefig('./2.png')
-            plt.close()
+            if self.draw_v_fig:   
+                plt.figure(figsize=(200, 400))
+                _, ax = plt.subplots(1, 1)
+                ax.scatter(np.arange(len(self.v)), self.v, label='real_v')
+                ax.scatter(np.arange(len(self.s)), self.s, label='target_v')
+                plt.title(model_config['type'])
+                plt.legend()
+                plt.savefig('./2.png')
+                plt.close()
 
             if not info['crashed']:
                 # Statistic lane change info.
@@ -143,6 +146,13 @@ class simulator(object):
             np.save(model_config['data_save_path'] + 'sample_data', save_data)
         return total_observations
 
+    def seed(self, seed_value):
+        seed = (self.sim_seed if self.sim_seed else 0) + seed_value 
+        self.monitor.seed(seed)
+        np.random.seed(seed)
+
+
+
     def reset(self):
         obs_num = int(np.random.normal(loc=8, scale=2, size=1)[0])
         obs_num = max(1, obs_num)
@@ -162,6 +172,7 @@ class simulator(object):
         if tail_data[0][2] < 3:
             return None
         window_index = -1
+        last_window = None
         result = []
         for i, data in enumerate(episode_data):
             obs_data = data[1:]
@@ -212,8 +223,8 @@ class simulator(object):
                 break
         window_index = len(
             current_data[1:]) if window_index == -1 else window_index
-        GT_window = LaneChangeWindow(None if window_index==len(current_data) else \
-            current_data[window_index], None if window_index==0 else current_data[window_index-1])
+        GT_window = LaneChangeWindow(None if window_index == len(current_data) else \
+            current_data[window_index], None if window_index == 0 else current_data[window_index-1])
         ego_car = np.concatenate([[1], ego_car])
         GT_window.getWindowInfo(ego_car)
         return window_index, GT_window
