@@ -81,8 +81,9 @@ class LaneChangeWindow(object):
         elif not self.rear_is_valid:
             self.window_s = self.front_s - front_safe_dis
             return
-        self.window_s = self.rear_s + rear_safe_dis if self.front_s - self.rear_s > front_safe_dis + rear_safe_dis else (
-            self.front_s + self.rear_s) / 2
+        self.window_s = self.rear_s + rear_safe_dis + env_config['ego_car'][
+            'length'] / 2 if self.front_s - self.rear_s > front_safe_dis + rear_safe_dis else (
+                self.front_s + self.rear_s) / 2
 
     def update(self, ego_car):
         # When we debug window chasign controller, we may want the ego_car to chase one
