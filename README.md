@@ -1,7 +1,28 @@
 # high_env_simulator
 This repository is based on the [Highway-env](https://github.com/eleurent/highway-env) and aims to compare different lane change method's performances.
 
-## Env config.
+## Catalog
+- [high_env_simulator](#high_env_simulator)
+  - [Catalog](#catalog)
+  - [Env config](#env-config)
+    - [Speed distribution](#speed-distribution)
+    - [Obs num](#obs-num)
+    - [Average distance between obstacles](#average-distance-between-obstacles)
+    - [Lane num](#lane-num)
+    - [Lane change direction](#lane-change-direction)
+  - [Vehicle action](#vehicle-action)
+    - [Increase velocity control accuracy and speed range](#increase-velocity-control-accuracy-and-speed-range)
+    - [Disable front obs lane change when ego car do a lane change](#disable-front-obs-lane-change-when-ego-car-do-a-lane-change)
+    - [Control](#control)
+  - [Rule-based method](#rule-based-method)
+  - [Data-driven](#data-driven)
+    - [Model structure](#model-structure)
+    - [Feature](#feature)
+- [Experiments](#experiments)
+  - [Selection of discrete target speed num.](#selection-of-discrete-target-speed-num)
+  - [Avoid collision.](#avoid-collision)
+    - [Avoid stop due to a large heading.](#avoid-stop-due-to-a-large-heading)
+## Env config
 The env distribution of the simulator will affect the mothod performance. And a good simulator shoule have a realistic env and can focus on difficult parts. 
 Currently, speed distribution of ego car and obstacles, obstacles num, average distance between obstacles, lane num, lane change direction and so on.
 
@@ -46,7 +67,12 @@ Currently, we only consider lane change left.
 ### Increase velocity control accuracy and speed range
 For convenience， we use a MDP-Vehicle model with a specified discrete range of allowed target speeds which use a high leve which use a high level action.
 The action space consists of Faster, Slower, IDLE, Left lane change, Right lane change. And the discrete target speed is defined as 
-![](https://latex.codecogs.com/svg.image?V_{target}=V_{min}&plus;V_{index}*\frac{(V_{max}-V_{min})}{V_{count}-1). The default 
+![](https://latex.codecogs.com/svg.image?V_{target}=V_{min}&plus;V_{index}*\frac{(V_{max}-V_{min})}{V_{count}-1),
+where 
+![](https://latex.codecogs.com/svg.image?V_{index}=Int{(\frac{V_{ego}-V_{min}}{V_{max}-V_{min}}*V_{count})}).
+If the high-level action is "Faster", 
+![](https://latex.codecogs.com/svg.image?V_{index}=V_{index}-1).
+The default 
 ![](https://latex.codecogs.com/svg.image?V_{max}=30)
 ![](https://latex.codecogs.com/svg.image?V_{min}=20)
 ![](https://latex.codecogs.com/svg.image?V_{count}=3)
@@ -73,7 +99,7 @@ And the other config are setting as default as
 
 ![](https://latex.codecogs.com/svg.image?h_{max}=-pi/2)
 
-#### Disable front obs lane change when ego car do a lane change
+### Disable front obs lane change when ego car do a lane change
 ![rule_based_1](https://user-images.githubusercontent.com/80379828/112783501-09d47980-9082-11eb-9a26-f211209a4b09.gif)
 ![12](https://user-images.githubusercontent.com/80379828/113014496-3639e400-91af-11eb-851a-7697bdb8ce93.gif)
 
@@ -143,22 +169,22 @@ We find rule based ego car has some abnormal motion, such as overshooting when c
 ## Avoid collision.
 |target speed num |  git|  target_real_v fig| 
 |----|----|----|  
-| normal case(7 target speed)| ![target_speed_7](./MD/assets/1_episode_target_speed_7_crashed.gif)| ![target_speed_3_small](./MD/assets/1_episode_target_speed_7_crashed.png) |  
+| crashed case(7 target speed)| ![target_speed_7](./MD/assets/1_episode_target_speed_7_crashed.gif)| ![target_speed_3_small](./MD/assets/1_episode_target_speed_7_crashed.png) |  
 |normal case(61 target speed)| ![data_driven_small](./MD/assets/1_episode_target_speed_61.gif)| ![episode_2_target_speed_31](./MD/assets/1_episode_target_speed_61.png)  
 ### Avoid stop due to a large heading.
 |target speed num |  git|  target and real speed fig| 
 |----|----|----|  
-| normal case(7 target speed)| ![target_speed_7](./MD/assets/2_episode_target_speed_7_stop.gif)| ![target_speed_3_small](./MD/assets/2_episode_target_speed_7_stop.png) |  
+| stop due to lat motion(7 target speed)| ![target_speed_7](./MD/assets/2_episode_target_speed_7_stop.gif)| ![target_speed_3_small](./MD/assets/2_episode_target_speed_7_stop.png) |  
 |normal case(61 target speed)| ![data_driven_small](./MD/assets/2_episode_target_speed_61.gif)| ![episode_2_target_speed_31](./MD/assets/2_episode_target_speed_61.png)
 
 
 A commom problem is that ego car may overshoot in s when chasing the target window. Here is a case. 
 
-# run script with rule-based window selection.
-python model_test.py --type rule-based
-# run script with data-driven window selection.
+    run script with rule-based window selection.
+    python model_test.py --type rule-based
+    run script with data-driven window selection.
 
 
-### If you have any feedback or suggestions, feel free to contact me.
-### zhen.liu (slack)
-### zhen.liu@plus.ai （email)
+___If you have any feedback or suggestions, feel free to contact me.
+slack: zhen.liu
+email: zhen.liu@plus.ai___
