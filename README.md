@@ -21,7 +21,7 @@ This repository is based on the [Highway-env](https://github.com/eleurent/highwa
 - [Experiments](#experiments)
   - [Selection of discrete target speed num.](#selection-of-discrete-target-speed-num)
   - [Avoid collision.](#avoid-collision)
-    - [Avoid stop due to a large heading.](#avoid-stop-due-to-a-large-heading)
+  - [Avoid stop due to a large heading.](#avoid-stop-due-to-a-large-heading)
 ## Env config
 The env distribution of the simulator will affect the mothod performance. And a good simulator shoule have a realistic env and can focus on difficult parts. 
 Currently, speed distribution of ego car and obstacles, obstacles num, average distance between obstacles, lane num, lane change direction and so on.
@@ -71,7 +71,7 @@ The action space consists of Faster, Slower, IDLE, Left lane change, Right lane 
 where 
 ![](https://latex.codecogs.com/svg.image?V_{index}=Int{(\frac{V_{ego}-V_{min}}{V_{max}-V_{min}}*V_{count})}).
 If the high-level action is "Faster", 
-![](https://latex.codecogs.com/svg.image?V_{index}=V_{index}-1).
+![](https://latex.codecogs.com/svg.image?V_{index}=V_{index}+1).
 The default 
 ![](https://latex.codecogs.com/svg.image?V_{max}=30)
 ![](https://latex.codecogs.com/svg.image?V_{min}=20)
@@ -171,19 +171,26 @@ We find rule based ego car has some abnormal motion, such as overshooting when c
 |----|----|----|  
 | crashed case(7 target speed)| ![target_speed_7](./MD/assets/1_episode_target_speed_7_crashed.gif)| ![target_speed_3_small](./MD/assets/1_episode_target_speed_7_crashed.png) |  
 |normal case(61 target speed)| ![data_driven_small](./MD/assets/1_episode_target_speed_61.gif)| ![episode_2_target_speed_31](./MD/assets/1_episode_target_speed_61.png)  
-### Avoid stop due to a large heading.
+## Avoid stop due to a large heading.
 |target speed num |  git|  target and real speed fig| 
 |----|----|----|  
 | stop due to lat motion(7 target speed)| ![target_speed_7](./MD/assets/2_episode_target_speed_7_stop.gif)| ![target_speed_3_small](./MD/assets/2_episode_target_speed_7_stop.png) |  
 |normal case(61 target speed)| ![data_driven_small](./MD/assets/2_episode_target_speed_61.gif)| ![episode_2_target_speed_31](./MD/assets/2_episode_target_speed_61.png)
 
+So, increasing target speed num can improve real speed accuracy, but it also decrease real accelerate duo to the close target speed. It is the main reason which make the car overshooting in s when chasing the target window. A case is shown in the following.
 
-A commom problem is that ego car may overshoot in s when chasing the target window. Here is a case. 
+|target speed num |  git|  target and real speed fig| 
+|----|----|----|  
+|normal case(7 target speed)| ![target_speed_7](./MD/assets/1_episode_target_speed_7.gif)| ![target_speed_3_small](./MD/assets/1_episode_target_speed_7.png) |
+|Overshooting(61 target speed)| ![target_speed_61](./MD/assets/1_episode_target_speed_91.gif)| ![target_speed_3_small](./MD/assets/1_episode_target_speed_91.png) | 
 
-    run script with rule-based window selection.
+
+___run script with rule-based window selection.___
+
     python model_test.py --type rule-based
-    run script with data-driven window selection.
+___run script with data-driven window selection.___
 
+    python model_test.py --type data-driven
 
 ___If you have any feedback or suggestions, feel free to contact me.
 slack: zhen.liu
